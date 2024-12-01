@@ -2,15 +2,13 @@ package org.example;
 
 
 import lombok.SneakyThrows;
+import org.example.stage1.Tree23;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 public class HomeWork {
 
@@ -23,26 +21,22 @@ public class HomeWork {
         var bi = new BufferedReader(new InputStreamReader(in));
         var bo = new PrintStream(out);
         var count = Integer.parseInt(bi.readLine());
+
         for (int i = 0; i < count; i++) {
             var s = bi.readLine();
-            var max = s.length() + 1;
-            var list = new ArrayList<Integer>();
-            list.add(0);
+            var tree = new Tree23<Integer>();
+            var prev = 0;
             for (int j = 0; j < s.length(); j++) {
-                if (s.charAt(j) == 'R') {
-                    list.add(j + 1);
+                if ('R' == s.charAt(j)) {
+                    tree.add(j + 1 - prev);
+                    prev = j + 1;
                 }
             }
-            list.add(max);
-            var d = 0;
-            for (int j = 1; j < list.size(); j++) {
-                d = Math.max(d, list.get(j) - list.get(j - 1));
-            }
-            bo.println(d);
+            tree.add(s.length() + 1 - prev);
+            bo.println(tree.getMax());
         }
         bo.flush();
     }
-
 
 
 }
